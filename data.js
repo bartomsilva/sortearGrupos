@@ -19,7 +19,6 @@ const alunos = [
   "Lázaro",
   "Priscila",
   "Kalinka",
-  "Ivirson",
   "Gabriel F",
   "Edjalma",
   "Pietra",
