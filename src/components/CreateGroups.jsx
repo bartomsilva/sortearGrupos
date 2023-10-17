@@ -2,8 +2,8 @@ import { ButtonList } from "../styled";
 
 export function CreateGroups(props) {
 
-  const { names, numberNames } = props
-  const listOrdenada = ordenarNomes(names);
+  const { names: peoples, numberNames } = props
+  const listOrdenada = ordenarNomes(peoples);
   const listaEmbaralhada = misturarNomes(listOrdenada);
   const gruposFormados = formarGrupos(listaEmbaralhada, numberNames);
 
@@ -18,7 +18,7 @@ export function CreateGroups(props) {
 
   function ordenarNomes(names) {
     const newNames = [...names]
-    newNames.sort((a, b) => a.localeCompare(b));
+    newNames.sort((a, b) => a.name.localeCompare(b.name));
     return newNames
   }
 
@@ -38,7 +38,7 @@ export function CreateGroups(props) {
     while (list.length >= numeroDeComponentes) {
       componentesGrupo = " - ";
       for (let i = 0; i < numeroDeComponentes; i++) {
-        componentesGrupo += "( "+list[i] + " ) - ";
+        componentesGrupo += "( "+list[i].name + " ) - ";
       }
       // adiciona ao grupo os alunos sorteados
       grupos[numGrupo] = componentesGrupo;
@@ -51,7 +51,7 @@ export function CreateGroups(props) {
       numGrupo++;
       componentesGrupo = " - ";
       for (let i = 0; i < list.length; i++) {
-        componentesGrupo += "( "+list[i] + " ) - ";
+        componentesGrupo += "( "+list[i].name + " ) - ";
       }
       grupos[numGrupo] = componentesGrupo;
       list.splice(0, list.length);

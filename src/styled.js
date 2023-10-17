@@ -50,6 +50,8 @@ export const Button = styled.button`
 export const ButtonCounter = styled(Button)`
   background-color: beige;
   font-size: 18px;
+  /* border: 1px solid rgba(0,0,0,0.35) */
+
 `
 export const ButtonList = styled(Button)`
   background-color: #f18470;
@@ -59,6 +61,7 @@ export const ButtonList = styled(Button)`
 `
 export const ButtonSE = styled(Button)`
   background-color: beige;
+  margin: 0 5px;
 `
 export const ButtonGroup = styled(Button)`
   background-color: beige;
