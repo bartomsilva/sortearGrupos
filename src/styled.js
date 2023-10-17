@@ -22,6 +22,12 @@ export const SubTitle = styled.span`
   font-weight: 700;
   padding: 10px;
 `;
+
+export const Counter = styled(SubTitle)`
+  display: inline-block;
+  min-width:35px;
+  color: ${(props)=> props.color}
+`
 export const Button = styled.button`
   border-radius: 8px;
   border: 1px solid transparent;
@@ -29,7 +35,7 @@ export const Button = styled.button`
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: aquamarine;
+  background-color: #f18470;
   cursor: pointer;
   transition: border-color 0.25s;
   &:hover {
@@ -41,9 +47,14 @@ export const Button = styled.button`
   }
 `;
 
+export const ButtonCounter = styled(Button)`
+  background-color: beige;
+  font-size: 18px;
+`
 export const ButtonList = styled(Button)`
-  background-color: aquamarine;
-  font-size: 20px;
+  background-color: #f18470;
+  font-size: 18px;
+  font-weight: 700;
   width: fit-content;
 `
 export const ButtonSE = styled(Button)`
@@ -53,7 +64,7 @@ export const ButtonGroup = styled(Button)`
   background-color: beige;
   margin: 20px;
   height: 60px;
-  width: 140px;
+  min-width: 150px;
   border: 1px solid black;
 `
 export const Input = styled.input`

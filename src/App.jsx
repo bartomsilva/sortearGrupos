@@ -4,6 +4,7 @@ import { peoples } from "./data/peoples";
 import * as s from "./styled";
 import { CardPeoples } from "./components/CardPeoples";
 import { CreateGroups } from "./components/CreateGroups";
+import * as i from "react-icons/ai"
 
 function App() {
   const [names, setNames] = useState(peoples);
@@ -27,7 +28,7 @@ function App() {
           seeGroup ?
             <>
               <h1>Grupos Formados</h1>
-              <s.SubTitle>({Math.ceil(names.length/counter)} Grupos)</s.SubTitle>
+              <s.SubTitle>({Math.ceil(names.length / counter)} Grupos)</s.SubTitle>
             </>
             :
             <>
@@ -56,15 +57,18 @@ function App() {
         <div>
           {!seeGroup &&
             <>
-              <s.Button onClick={() => plus()}>+</s.Button>
-              <s.SubTitle>{counter}</s.SubTitle>
-              <s.Button onClick={() => minus()}>-</s.Button>
+              <s.ButtonCounter onClick={() => plus()}><i.AiOutlinePlus /></s.ButtonCounter>
+              <s.Counter color={names.length % counter == 0 ? "#005600" : "#f00"}>{counter}</s.Counter>
+              <s.ButtonCounter onClick={() => minus()}><i.AiOutlineMinus /></s.ButtonCounter>
             </>
           }
           <s.ButtonGroup onClick={() => setSeeGroup(!seeGroup)}>
-            {!seeGroup ? "Ver Grupos" : "Ver lista de Participantes"}
+            {!seeGroup ?
+              "Ver " + Math.ceil(names.length / counter)+" Grupos"
+              :
+              "Ver lista de Participantes"
+            }
           </s.ButtonGroup>
-
           <s.ContainerGroups>
             {
               seeGroup &&
