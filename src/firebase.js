@@ -9,8 +9,7 @@ import { getFirestore } from 'firebase/firestore';
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  // apiKey: "AIzaSyDZjDkUUCgEVUU8Po0StlCA4RdC1VN7ZcE",
-  apiKey: process.env = REACT_APP_APIKEY,
+  apiKey: "AIzaSyDZjDkUUCgEVUU8Po0StlCA4RdC1VN7ZcE",
   authDomain: "make-groups.firebaseapp.com",
   projectId: "make-groups",
   storageBucket: "make-groups.appspot.com",
