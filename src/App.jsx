@@ -1,15 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
-import { peoples } from "./data/peoples";
+// import { peoples } from "./data/peoples";
 import * as s from "./styled";
 import { CardPeoples } from "./components/CardPeoples";
 import { CreateGroups } from "./components/CreateGroups";
 import * as i from "react-icons/ai"
+import { db } from './firebase';
+import { collection, addDoc, getDocs, updateDoc, deleteDoc  } from 'firebase/firestore';
+
 
 function App() {
-  const [names, setNames] = useState(peoples);
+  const [names, setNames] = useState();
   const [seeGroup, setSeeGroup] = useState(false)
   const [counter, setCounter] = useState(2)
+  const fetchData = async () => {
+    const peopleCollectionRef = collection(db, 'peoples');
+    const data = await getDocs(peopleCollectionRef);
+    const dataArray = data.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    setNames(dataArray);
+  };
+  useEffect(() => {    
+      fetchData();
+  }, []);
 
   const plus = () => {
     if (counter < names.length / 2) {
@@ -21,6 +33,24 @@ function App() {
       setCounter(prevState => prevState - 1)
     }
   }
+
+  const addDataToFirestore = () => {
+    const data = {
+      name: 'Bart'      
+    };
+    // Adiciona os dados ao Firestore
+    addDoc(collection(db, 'peoples'), data)
+      .then((docRef) => {
+        console.log('Documento adicionado com ID: ', docRef.id);
+        fetchData()
+      })
+      .catch((error) => {
+        console.error('Erro ao adicionar documento: ', error);
+      });
+  };
+
+
+
   return (
     <s.Flow>
       <header>
@@ -33,7 +63,7 @@ function App() {
             :
             <>
               <h1>Lista de participantes</h1>
-              <s.SubTitle>({names.length} Participantes)</s.SubTitle>
+              <s.SubTitle>({names?.length} Participantes)</s.SubTitle>
             </>
         }
       </header>
@@ -44,8 +74,8 @@ function App() {
               <p>clique no nome para modificar</p>
               <s.ContainerList>
                 {Array.isArray(names) && names.length > 0 ? (
-                  names.map((name, idx) => (
-                    <CardPeoples key={idx} names={names} name={name} setNames={setNames} idx={idx} />
+                  names.map((people, idx) => (
+                    <CardPeoples key={idx} people={people} fetchData={fetchData} />
                   ))
                 ) : (
                   <p>Nenhum nome disponível.</p>
@@ -58,13 +88,13 @@ function App() {
           {!seeGroup &&
             <>
               <s.ButtonCounter onClick={() => plus()}><i.AiOutlinePlus /></s.ButtonCounter>
-              <s.Counter color={names.length % counter == 0 ? "#005600" : "#f00"}>{counter}</s.Counter>
+              <s.Counter color={names?.length % counter == 0 ? "#005600" : "#f00"}>{counter}</s.Counter>
               <s.ButtonCounter onClick={() => minus()}><i.AiOutlineMinus /></s.ButtonCounter>
             </>
           }
           <s.ButtonGroup onClick={() => setSeeGroup(!seeGroup)}>
             {!seeGroup ?
-              "Ver " + Math.ceil(names.length / counter)+" Grupos"
+              "Ver " + Math.ceil(names?.length / counter) + " Grupos"
               :
               "Ver lista de Participantes"
             }
@@ -77,6 +107,9 @@ function App() {
           </s.ContainerGroups>
         </div>
         <p>breve add e remover com banco de dados</p>
+        <div>
+          <s.Button onClick={addDataToFirestore}>Adicionar Dados ao Firestore</s.Button>
+        </div>
       </main>
     </s.Flow>
   );
