@@ -17,14 +17,14 @@ function App() {
 
   useEffect(() => {
     fetchData(setNames);
-  },[]);
+  }, []);
 
   const plus = () => {
     if (counter < names.length / 2) {
       setCounter(prevState => prevState + 1)
     }
   }
-  
+
   const minus = () => {
     if (counter > 2) {
       setCounter(prevState => prevState - 1)
@@ -53,7 +53,7 @@ function App() {
             <>
               <p>clique no nome para modificar</p>
               <s.ContainerList>
-                <div>
+                {/* <div>
                   {insert &&
                     <div>
                       <s.Input
@@ -78,7 +78,7 @@ function App() {
                       <s.Button onClick={() => setInsert(true)}>Add Nome</s.Button>
                     </>
                   }
-                </div>
+                </div> */}
 
                 {names?.length > 0 &&
                   names.map((people, idx) => (
@@ -98,6 +98,32 @@ function App() {
         </div>
 
         <div>
+          <s.ContainerAddName>
+            {insert &&
+              <div>
+                <s.Input
+                  placeholder="Nome"
+                  value={newPeople}
+                  onChange={(e) => setNewPeople(e.target.value)}
+                  autoFocus
+                />
+                <s.ButtonSE onClick={async () => {
+                  setInsert(false)
+                  newPeople && addDataToFirestore(newPeople)
+                  newPeople && await fetchData(setNames)
+                  setNewPeople("")
+                }}>Salvar</s.ButtonSE>
+                <s.ButtonSE onClick={() => {
+                  setInsert(false)
+                }}>Cancelar</s.ButtonSE>
+              </div>
+            }
+            {!insert &&
+              <>
+                <s.ButtonAddName onClick={() => setInsert(true)}>Add Nome</s.ButtonAddName>
+              </>
+            }
+          </s.ContainerAddName>
           {!seeGroup &&
             <>
               <s.ButtonCounter onClick={() => plus()}><i.AiOutlinePlus /></s.ButtonCounter>

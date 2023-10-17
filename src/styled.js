@@ -16,6 +16,10 @@ export const ContainerList = styled.div`
 
 export const ContainerGroups = styled(ContainerList)`
 `
+export const ContainerAddName = styled.div`
+  display: inline-block;
+  margin-right: 10px;
+`
 export const SubTitle = styled.span`
   font-size: 22px;
   color: black;
@@ -50,7 +54,6 @@ export const Button = styled.button`
 export const ButtonCounter = styled(Button)`
   background-color: beige;
   font-size: 18px;
-  /* border: 1px solid rgba(0,0,0,0.35) */
 
 `
 export const ButtonList = styled(Button)`
@@ -62,6 +65,8 @@ export const ButtonList = styled(Button)`
 export const ButtonSE = styled(Button)`
   background-color: beige;
   margin: 0 5px;
+`
+export const ButtonAddName =styled(ButtonSE)`
 `
 export const ButtonGroup = styled(Button)`
   background-color: beige;
