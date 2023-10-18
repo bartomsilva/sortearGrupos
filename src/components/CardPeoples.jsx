@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, ButtonSE, Input } from "../styled";
 import { deleteItem, updateName } from "../functions/functions";
-import * as i from "react-icons/ai"
+import { AiOutlineCheck,AiOutlineClose,} from "react-icons/ai"
 import {PiTrash } from "react-icons/Pi"
 
 export function CardPeoples(props) {
@@ -27,17 +27,20 @@ export function CardPeoples(props) {
             setEdit(false)
             const itemIdToUpdate = people.id
             const newUpdatedName = nameEdit
-            newUpdatedName && updateName(itemIdToUpdate, newUpdatedName);
-            !newUpdatedName && deleteItem(itemIdToUpdate);
+            if(newUpdatedName){
+              await updateName(itemIdToUpdate, newUpdatedName);
+            } else {
+              await deleteItem(itemIdToUpdate);
+            }
             await fetchData(setNames)
           }}
-          ><i.AiOutlineCheck/></ButtonSE>
+          ><AiOutlineCheck/></ButtonSE>
           <ButtonSE onClick={() => {
             setEdit(false)
           }}
-          ><i.AiOutlineClose/></ButtonSE>
+          ><AiOutlineClose/></ButtonSE>
           <ButtonSE onClick={async () => {
-            deleteItem(people.id)
+            await deleteItem(people.id)
             setEdit(false)
             await fetchData(setNames)
           }}><PiTrash/></ButtonSE>
@@ -50,8 +53,6 @@ export function CardPeoples(props) {
           }}>{people.name}</Button>
         </>
       )}
-      {/* <button onClick={()=>getItemById("peoples",people.id)}>exibir</button>
-      <button onClick={()=>findByName("peoples",people.name[2])}></button> */}
     </>
   );
 }
