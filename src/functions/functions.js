@@ -58,7 +58,6 @@ export const getItemById = async (collection, id) => {
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      // const data = docSnap.data(); // só os dados
       const data = {
         id: docSnap.id,
         ...docSnap.data(),
@@ -101,4 +100,16 @@ export const modal=(m1,m2)=> {
     icon: 'info',
     confirmButtonText: 'Ok'
   })
+}
+
+export const plus = (setCounter) => {
+  if (counter < names.length / 2) {
+    setCounter(prevState => prevState + 1)
+  }
+}
+
+export const minus = (setCounter) => {
+  if (counter > 2) {
+    setCounter(prevState => prevState - 1)
+  }
 }

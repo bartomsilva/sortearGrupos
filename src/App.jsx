@@ -8,7 +8,7 @@ import {
   AiOutlineMinus
 } from "react-icons/ai"
 import { GoPersonAdd } from "react-icons/Go"
-import { addDataToFirestore, fetchData } from "./functions/functions";
+import { addDataToFirestore, fetchData, minus, plus } from "./functions/functions";
 
 function App() {
 
@@ -21,18 +21,6 @@ function App() {
   useEffect(() => {
     fetchData(setNames);
   }, []);
-
-  const plus = () => {
-    if (counter < names.length / 2) {
-      setCounter(prevState => prevState + 1)
-    }
-  }
-
-  const minus = () => {
-    if (counter > 2) {
-      setCounter(prevState => prevState - 1)
-    }
-  }
 
   return (
     <s.Flow>
@@ -102,9 +90,9 @@ function App() {
           </s.ContainerAddName>
           {!seeGroup &&
             <>
-              <s.ButtonCounter onClick={() => plus()}><AiOutlinePlus /></s.ButtonCounter>
+              <s.ButtonCounter onClick={() => plus(setCounter)}><AiOutlinePlus /></s.ButtonCounter>
               <s.Counter color={names?.length % counter == 0 ? "#005600" : "#f00"}>{counter}</s.Counter>
-              <s.ButtonCounter onClick={() => minus()}><AiOutlineMinus /></s.ButtonCounter>
+              <s.ButtonCounter onClick={() => minus(setCounter)}><AiOutlineMinus /></s.ButtonCounter>
             </>
           }
 
@@ -118,9 +106,7 @@ function App() {
               <CreateGroups names={names} numberNames={counter} />
             }
           </s.ContainerGroups>
-
         </div>
-
       </main>
     </s.Flow>
   );
