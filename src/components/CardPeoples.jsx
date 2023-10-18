@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Button, ButtonSE, Input } from "../styled";
 import { deleteItem, updateName } from "../functions/functions";
+import * as i from "react-icons/ai"
+import {PiTrash } from "react-icons/Pi"
 
 export function CardPeoples(props) {
   const [edit, setEdit] = useState(false);
@@ -29,16 +31,16 @@ export function CardPeoples(props) {
             !newUpdatedName && deleteItem(itemIdToUpdate);
             await fetchData(setNames)
           }}
-          >Salvar</ButtonSE>
+          ><i.AiOutlineCheck/></ButtonSE>
           <ButtonSE onClick={() => {
             setEdit(false)
           }}
-          >Fechar</ButtonSE>
+          ><i.AiOutlineClose/></ButtonSE>
           <ButtonSE onClick={async () => {
             deleteItem(people.id)
             setEdit(false)
             await fetchData(setNames)
-          }}>Excluir</ButtonSE>
+          }}><PiTrash/></ButtonSE>
         </div>
       ) : (
         <>
@@ -48,6 +50,8 @@ export function CardPeoples(props) {
           }}>{people.name}</Button>
         </>
       )}
+      {/* <button onClick={()=>getItemById("peoples",people.id)}>exibir</button>
+      <button onClick={()=>findByName("peoples",people.name[2])}></button> */}
     </>
   );
 }

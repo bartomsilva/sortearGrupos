@@ -1,45 +1,104 @@
-import { db } from '../firebase';
-import { collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { db } from "../firebase";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  getDoc,
+  doc,
+  updateDoc,
+  deleteDoc,
+} from "firebase/firestore";
+import Swal from 'sweetalert2'
 
 export const fetchData = async (setNames) => {
-  const peopleCollectionRef = collection(db, 'peoples');
-  const data = await getDocs(peopleCollectionRef);
+  const data = await getDocs(collection(db, "peoples"));
   const dataArray = data.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
   setNames(dataArray);
 };
 
-export const addDataToFirestore = (newPeople) => {
+export const addDataToFirestore = async (newPeople) => {
   const data = {
-    name: newPeople
+    name: newPeople,
   };
   // Adiciona os dados ao Firestore
-  addDoc(collection(db, 'peoples'), data)
+  await addDoc(collection(db, "peoples"), data)
     .then((docRef) => {
-      console.log('Documento adicionado com ID: ', docRef.id);
+      modal("Documento adicionado com ID:",docRef.id);
     })
     .catch((error) => {
-      console.error('Erro ao adicionar documento: ', error);
+      modal("Erro ao adicionar documento:",error);
     });
 };
 
 export const updateName = async (itemId, newName) => {
   try {
-    const itemDocRef = doc(db, 'peoples', itemId);
+    const itemDocRef = doc(db, "peoples", itemId);
     await updateDoc(itemDocRef, {
-      name: newName
+      name: newName,
     });
-    console.log('Nome atualizado com sucesso!');
+    modal("Nome atualizado com sucesso!");
   } catch (error) {
-    console.error('Erro ao atualizar nome:', error);
+    modal("Erro ao atualizar nome:",error);
   }
 };
 
 export const deleteItem = async (itemId) => {
   try {
-    const itemDocRef = doc(db, 'peoples', itemId);  // 'peoples' é o nome da coleção
+    const itemDocRef = doc(db, "peoples", itemId); // 'peoples' é o nome da coleção
     await deleteDoc(itemDocRef);
-    console.log('Item deletado com sucesso!');
+    modal("Item deletado com sucesso!");
   } catch (error) {
-    console.error('Erro ao deletar item:', error);
+    modal("Erro ao deletar item:",error);
   }
 };
+
+export const getItemById = async (collection, id) => {
+  try {
+    const docRef = doc(db, collection, id);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      // const data = docSnap.data(); // só os dados
+      const data = {
+        id: docSnap.id,
+        ...docSnap.data(),
+      };
+      modal("Dados do documento:",data);
+      return data;
+    } else {
+      modal("Nenhum documento encontrado com o ID:",id);
+      return null;
+    }
+  } catch (error) {
+    modal("Erro ao ler o documento:",error);
+    throw new Error("Erro ao ler o documento");
+  }
+};
+
+export const findByName = async (collection, word) => {
+  try {
+    const querySnapshot = await getDocs(collection(db, collection));
+   
+    const results = querySnapshot.docs
+      .filter((doc) => doc.data().name.includes(word))
+      .map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+    modal("Resultados da pesquisa: ",results);
+    return results;
+  } catch (error) {
+    modal("Erro ao pesquisar:",error);
+    throw new Error("Erro ao pesquisar");
+  }
+};
+
+export const modal=(m1,m2)=> {
+  Swal.fire({
+    title: m1,
+    text: typeof m2 ==="object" ? JSON.stringify(m2) : m2,
+    icon: 'info',
+    confirmButtonText: 'Ok'
+  })
+}

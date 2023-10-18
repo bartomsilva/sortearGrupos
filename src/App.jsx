@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-// import { peoples } from "./data/peoples";
 import * as s from "./styled";
 import { CardPeoples } from "./components/CardPeoples";
 import { CreateGroups } from "./components/CreateGroups";
-import * as i from "react-icons/ai"
+import {
+  AiOutlineCheck, AiOutlineClose, AiOutlinePlus,
+  AiOutlineMinus
+} from "react-icons/ai"
+import { GoPersonAdd } from "react-icons/Go"
 import { addDataToFirestore, fetchData } from "./functions/functions";
 
 function App() {
@@ -53,33 +56,6 @@ function App() {
             <>
               <p>clique no nome para modificar</p>
               <s.ContainerList>
-                {/* <div>
-                  {insert &&
-                    <div>
-                      <s.Input
-                        placeholder="Nome"
-                        value={newPeople}
-                        onChange={(e) => setNewPeople(e.target.value)}
-                        autoFocus 
-                      />
-                      <s.ButtonSE onClick={async () => {
-                        setInsert(false)
-                        newPeople && addDataToFirestore(newPeople)
-                        newPeople && await fetchData(setNames)
-                        setNewPeople("")
-                      }}>Salvar</s.ButtonSE>
-                      <s.ButtonSE onClick={() => {
-                        setInsert(false)
-                      }}>Cancelar</s.ButtonSE>
-                    </div>
-                  }
-                  {!insert &&
-                    <>
-                      <s.Button onClick={() => setInsert(true)}>Add Nome</s.Button>
-                    </>
-                  }
-                </div> */}
-
                 {names?.length > 0 &&
                   names.map((people, idx) => (
                     <CardPeoples
@@ -112,23 +88,23 @@ function App() {
                   newPeople && addDataToFirestore(newPeople)
                   newPeople && await fetchData(setNames)
                   setNewPeople("")
-                }}>Salvar</s.ButtonSE>
+                }}><AiOutlineCheck /></s.ButtonSE>
                 <s.ButtonSE onClick={() => {
                   setInsert(false)
-                }}>Cancelar</s.ButtonSE>
+                }}><AiOutlineClose /></s.ButtonSE>
               </div>
             }
             {!insert &&
               <>
-                <s.ButtonAddName onClick={() => setInsert(true)}>Add Nome</s.ButtonAddName>
+                <s.ButtonAddName onClick={() => setInsert(true)}><GoPersonAdd size = '20px'/></s.ButtonAddName>
               </>
             }
           </s.ContainerAddName>
           {!seeGroup &&
             <>
-              <s.ButtonCounter onClick={() => plus()}><i.AiOutlinePlus /></s.ButtonCounter>
+              <s.ButtonCounter onClick={() => plus()}><AiOutlinePlus /></s.ButtonCounter>
               <s.Counter color={names?.length % counter == 0 ? "#005600" : "#f00"}>{counter}</s.Counter>
-              <s.ButtonCounter onClick={() => minus()}><i.AiOutlineMinus /></s.ButtonCounter>
+              <s.ButtonCounter onClick={() => minus()}><AiOutlineMinus /></s.ButtonCounter>
             </>
           }
 
