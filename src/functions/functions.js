@@ -23,7 +23,7 @@ export const addDataToFirestore = async (newPeople) => {
   // Adiciona os dados ao Firestore
   await addDoc(collection(db, "peoples"), data)
     .then((docRef) => {
-      modal("Documento adicionado com Sucesso","");
+      // modal("Documento adicionado com Sucesso","");
     })
     .catch((error) => {
       modal("Erro ao adicionar nome:","");
@@ -36,7 +36,7 @@ export const updateName = async (itemId, newName) => {
     await updateDoc(itemDocRef, {
       name: newName,
     });
-    modal("Nome atualizado com sucesso!");
+    // modal("Nome atualizado com sucesso!");
   } catch (error) {
     modal("Erro ao atualizar nome:","");
   }
